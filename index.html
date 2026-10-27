@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGI AI-Native Delivery | Executive Strategy & Execution Hub</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cgi: {
+                            red: '#E31937',
+                            redhover: '#C41230',
+                            navy: '#002B49',
+                            darkpurple: '#180A32',
+                            purpleaccent: '#4833A1',
+                            purplelight: '#F1EFFA',
+                            border: '#E2E8F0',
+                            card: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(241, 245, 249, 0.5);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body x-data="dashboardApp()" class="h-full bg-slate-50 text-slate-800 antialiased selection:bg-cgi-red selection:text-white">
+
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- ==================================================================== -->
+        <!-- LEFT SIDEBAR NAVIGATION (CGI Executive Layout)                       -->
+        <!-- ==================================================================== -->
+        <aside class="w-64 bg-cgi-darkpurple text-white flex flex-col flex-shrink-0 border-r border-purple-950/40 z-30 select-none">
+            
+            <!-- Brand Logo Header -->
+            <div class="p-5 flex items-center justify-between border-b border-white/10">
+                <div class="flex items-center space-x-3 cursor-pointer" @click="currentView = 'dashboard'">
+                    <div class="bg-cgi-red text-white font-black px-2.5 py-1 rounded text-xl tracking-wider shadow-md">
+                        CGI
+                    </div>
+                    <div class="leading-none">
+                        <span class="text-xs font-bold tracking-widest text-slate-300 block uppercase">AI Delivery</span>
+                        <span class="text-[10px] text-purple-300 font-mono">Executive Hub</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto custom-scrollbar text-xs font-medium">
+                <button @click="currentView = 'dashboard'" :class="currentView === 'dashboard' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4 text-purple-300"></i>
+                    <span>CXO Dashboard</span>
+                </button>
+
+                <button @click="currentView = 'marketScan'" :class="currentView === 'marketScan' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-purple-300"></i>
+                    <span>Market & Deals Pipeline</span>
+                </button>
+
+                <button @click="currentView = 'deliveryModel'" :class="currentView === 'deliveryModel' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="layers" class="w-4 h-4 text-purple-300"></i>
+                    <span>Delivery Model & FDAIE</span>
+                </button>
+
+                <button @click="currentView = 'trackBTransition'" :class="currentView === 'trackBTransition' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="git-pull-request" class="w-4 h-4 text-purple-300"></i>
+                    <span>Lean Pod Agile Transition</span>
+                </button>
+
+                <button @click="currentView = 'peopleAcademy'" :class="currentView === 'peopleAcademy' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-300"></i>
+                    <span>Academy, SMEs & Roles</span>
+                </button>
+
+                <button @click="currentView = 'knowledgeHub'" :class="currentView === 'knowledgeHub' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="compass" class="w-4 h-4 text-purple-300"></i>
+                    <span>Role-Based Spec Journeys</span>
+                </button>
+
+                <button @click="currentView = 'measuresGovernance'" :class="currentView === 'measuresGovernance' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-purple-300"></i>
+                    <span>Governance & Best Practices</span>
+                </button>
+
+                <button @click="currentView = 'executionRoadmap'" :class="currentView === 'executionRoadmap' ? 'bg-cgi-purpleaccent text-white font-semibold shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'" class="w-full flex items-center px-3 py-2.5 rounded-lg transition-all gap-3">
+                    <i data-lucide="map" class="w-4 h-4 text-purple-300"></i>
+                    <span>Execution Guide & Roadmap</span>
+                </button>
+            </nav>
+
+            <!-- Bottom Quick Modeler Actions -->
+            <div class="p-3 border-t border-white/10 bg-white/5 space-y-2">
+                <button @click="roiModalOpen = true" class="w-full py-2 px-3 bg-cgi-red hover:bg-cgi-redhover text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-2 shadow transition">
+                    <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                    <span>ROI & Capacity Modeler</span>
+                </button>
+                <button @click="gateModalOpen = true" class="w-full py-1.5 px-3 bg-white/10 hover:bg-white/20 text-purple-100 rounded-lg text-[11px] font-medium flex items-center justify-center gap-2 transition">
+                    <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+                    <span>Program Gate Auditor</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ==================================================================== -->
+        <!-- MAIN CONTENT CONTAINER                                              -->
+        <!-- ==================================================================== -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-slate-50">
+
+            <!-- Top Search & User Header Bar -->
+            <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between gap-4 flex-shrink-0">
+                <!-- Search Bar -->
+                <div class="relative max-w-md w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" x-model="searchQuery" placeholder="Search opportunities, deals, roles, contracts, journeys..." class="w-full pl-9 pr-12 py-1.5 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-xs rounded-full border border-slate-200 focus:outline-none focus:ring-2 focus:ring-cgi-purpleaccent/30 text-slate-700 transition">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-mono">⌘K</span>
+                </div>
+
+                <!-- Right Header Actions -->
+                <div class="flex items-center space-x-4 text-xs">
+                    <div class="hidden md:flex items-center space-x-2 text-slate-500 font-mono text-[11px]">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Phase: Gate 1 Active (Prove)</span>
+                    </div>
+
+                    <!-- User Profile Pill -->
+                    <div class="flex items-center space-x-2 pl-2 border-l border-slate-200">
+                        <div class="w-8 h-8 rounded-full bg-cgi-purplelight text-cgi-purpleaccent font-bold flex items-center justify-center text-xs border border-purple-200">
+                            JD
+                        </div>
+                        <div class="hidden sm:block text-left">
+                            <p class="font-bold text-slate-800 text-xs leading-none">Jane Doe</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5">CTO Office / Executive</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Scrollable View Content -->
+            <main class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 1: CXO COMMAND DASHBOARD                                        -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'dashboard'" x-transition class="space-y-6">
+                    
+                    <!-- Dashboard Header & Subtitle -->
+                    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-slate-200 pb-3">
+                        <div>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">AI Delivery Command Hub</h1>
+                            <p class="text-xs text-slate-500 mt-0.5">One integrated system: Forward Deployed AI Engineering spearheads value; Lean AI Pods make agent-native delivery default.</p>
+                        </div>
+                        <span class="text-xs font-mono font-semibold text-slate-500 bg-slate-200/70 px-2.5 py-1 rounded">26 Oct 2026</span>
+                    </div>
+
+                    <!-- Executive Top 4 Metric Summary Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Card 1: 55 Lean AI Pods -->
+                        <div @click="currentView = 'deliveryModel'" class="bg-cgi-purplelight/80 border border-purple-100 rounded-2xl p-4 flex items-center space-x-4 shadow-sm hover:shadow cursor-pointer transition">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline space-x-1">
+                                    <span class="text-2xl font-black text-cgi-navy">55</span>
+                                </div>
+                                <h3 class="text-xs font-bold text-cgi-navy">Lean AI Pods (M18)</h3>
+                                <p class="text-[11px] text-slate-500 leading-tight">Track A (8) + Track B (46) + Anchor (1)</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: 11 FDAIE Pods -->
+                        <div @click="currentView = 'deliveryModel'" class="bg-cgi-purplelight/80 border border-purple-100 rounded-2xl p-4 flex items-center space-x-4 shadow-sm hover:shadow cursor-pointer transition">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="rocket" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline space-x-1">
+                                    <span class="text-2xl font-black text-cgi-navy">11</span>
+                                </div>
+                                <h3 class="text-xs font-bold text-cgi-navy">FDAIE Pods</h3>
+                                <p class="text-[11px] text-slate-500 leading-tight">~54 Certified Forward-Deployed Engs</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: 2x Throughput -->
+                        <div @click="currentView = 'executionRoadmap'" class="bg-rose-50/80 border border-rose-100 rounded-2xl p-4 flex items-center space-x-4 shadow-sm hover:shadow cursor-pointer transition">
+                            <div class="w-12 h-12 rounded-2xl bg-rose-100 text-cgi-red flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="trending-up" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline space-x-1">
+                                    <span class="text-2xl font-black text-cgi-navy">2×–5×</span>
+                                </div>
+                                <h3 class="text-xs font-bold text-cgi-navy">Throughput Hypothesis</h3>
+                                <p class="text-[11px] text-slate-500 leading-tight">on matched work (DORA & metric-backed)</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Deal Pipeline -->
+                        <div @click="currentView = 'marketScan'" class="bg-rose-50/80 border border-rose-100 rounded-2xl p-4 flex items-center space-x-4 shadow-sm hover:shadow cursor-pointer transition">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="briefcase" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-baseline space-x-1">
+                                    <span class="text-2xl font-black text-cgi-navy">$44.7M</span>
+                                </div>
+                                <h3 class="text-xs font-bold text-cgi-navy">Deals Pipeline</h3>
+                                <p class="text-[11px] text-slate-500 leading-tight">3 active FDAIE target plays</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ==================================================================== -->
+                    <!-- ARCHITECTURE MAP CONTAINER ("The integrated model on a page")        -->
+                    <!-- ==================================================================== -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                            <div>
+                                <h2 class="text-lg font-black text-cgi-navy">The integrated model on a page</h2>
+                                <p class="text-xs text-cgi-red font-semibold">The CTO office keeps it one system; the FDAIE team sets the bar; Lean AI Pods make it the default</p>
+                            </div>
+                            <span class="text-[11px] font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded">Interactive System Architecture Map</span>
+                        </div>
+
+                        <!-- LAYER 1: CTO OFFICE BANNER -->
+                        <div class="bg-cgi-darkpurple text-white p-4 rounded-xl shadow flex flex-col md:flex-row items-center justify-between gap-3 border border-purple-950">
+                            <span class="font-black text-xs tracking-wider uppercase text-white px-2">CTO OFFICE</span>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full md:w-auto text-xs">
+                                <button @click="currentView = 'knowledgeHub'; journeyRole = 'fdaie'" class="bg-indigo-900/80 hover:bg-indigo-800 text-white px-3.5 py-2.5 rounded-xl font-medium transition text-center border border-white/10 flex items-center justify-center gap-1.5">
+                                    <span>Joint Arch. Advisory · Journeys</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-60"></i>
+                                </button>
+                                <button @click="currentView = 'measuresGovernance'" class="bg-indigo-900/80 hover:bg-indigo-800 text-white px-3.5 py-2.5 rounded-xl font-medium transition text-center border border-white/10 flex items-center justify-center gap-1.5">
+                                    <span>AI Delivery Hub / CoE</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-60"></i>
+                                </button>
+                                <button @click="currentView = 'knowledgeHub'" class="bg-indigo-900/80 hover:bg-indigo-800 text-white px-3.5 py-2.5 rounded-xl font-medium transition text-center border border-white/10 flex items-center justify-center gap-1.5">
+                                    <span>Agent Platform / AgentOps</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-60"></i>
+                                </button>
+                                <button @click="currentView = 'peopleAcademy'" class="bg-indigo-900/80 hover:bg-indigo-800 text-white px-3.5 py-2.5 rounded-xl font-medium transition text-center border border-white/10 flex items-center justify-center gap-1.5">
+                                    <span>AI Delivery Academy</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-60"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- LAYER 2: CLIENTS - ENTERPRISE FDAIE TEAM - INTERNAL TEAMS -->
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+                            <!-- CLIENTS -->
+                            <div @click="currentView = 'marketScan'" class="lg:col-span-3 bg-slate-100 hover:bg-purple-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-center items-center text-center cursor-pointer transition group">
+                                <span class="text-[10px] font-mono font-bold text-indigo-900 bg-indigo-100 px-2 py-0.5 rounded mb-1">DEMAND SOURCE</span>
+                                <h4 class="font-black text-cgi-navy text-base group-hover:text-cgi-red transition">CLIENTS</h4>
+                                <p class="text-xs text-slate-500">via account teams</p>
+                            </div>
+
+                            <!-- ARROW 1 -->
+                            <div class="hidden lg:col-span-1 lg:flex items-center justify-center">
+                                <i data-lucide="arrow-left-right" class="w-6 h-6 text-indigo-500"></i>
+                            </div>
+
+                            <!-- ENTERPRISE FDAIE TEAM -->
+                            <div @click="currentView = 'deliveryModel'" class="lg:col-span-4 bg-gradient-to-r from-cgi-darkpurple via-purple-900 to-cgi-red text-white rounded-xl p-5 shadow-md hover:shadow-lg transition cursor-pointer flex flex-col justify-center items-center text-center group border border-red-900/20">
+                                <span class="text-[10px] font-mono font-bold bg-white/20 text-white px-2 py-0.5 rounded uppercase tracking-wider mb-1">SPEARHEAD & ROLE MODEL</span>
+                                <h3 class="font-black text-lg text-white group-hover:scale-105 transition-transform">ENTERPRISE FDAIE TEAM</h3>
+                                <p class="text-xs text-slate-100 mt-1 font-medium">Lands and proves AI in 90-day cycles · seeds and coaches pods · open to shadowing</p>
+                            </div>
+
+                            <!-- ARROW 2 -->
+                            <div class="hidden lg:col-span-1 lg:flex items-center justify-center">
+                                <i data-lucide="arrow-left-right" class="w-6 h-6 text-indigo-500"></i>
+                            </div>
+
+                            <!-- INTERNAL TEAMS -->
+                            <div @click="currentView = 'peopleAcademy'" class="lg:col-span-3 bg-slate-100 hover:bg-purple-50 border border-slate-200 rounded-xl p-4 flex flex-col justify-center items-center text-center cursor-pointer transition group">
+                                <span class="text-[10px] font-mono font-bold text-indigo-900 bg-indigo-100 px-2 py-0.5 rounded mb-1">ENABLEMENT SOURCE</span>
+                                <h4 class="font-black text-cgi-navy text-base group-hover:text-cgi-red transition">INTERNAL TEAMS</h4>
+                                <p class="text-xs text-slate-500">SBUs · CIO and CTO office</p>
+                            </div>
+                        </div>
+
+                        <!-- LAYER 3: THREE CONNECTOR ARROWS -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 py-1 text-center text-xs font-bold">
+                            <div class="bg-indigo-50 border border-indigo-100 p-2 rounded-lg flex items-center justify-center gap-2 text-indigo-900">
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-indigo-700"></i>
+                                <span>Hand over run and scale</span>
+                            </div>
+                            <div class="bg-indigo-50 border border-indigo-100 p-2 rounded-lg flex items-center justify-center gap-2 text-indigo-900">
+                                <i data-lucide="arrow-down" class="w-4 h-4 text-indigo-700"></i>
+                                <span>Seed and coach new pods</span>
+                            </div>
+                            <div class="bg-red-50 border border-red-100 p-2 rounded-lg flex items-center justify-center gap-2 text-cgi-red">
+                                <i data-lucide="arrow-up" class="w-4 h-4 text-cgi-red"></i>
+                                <span>Shadow and learn</span>
+                            </div>
+                        </div>
+
+                        <!-- LAYER 4: LEAN AI POD DELIVERY CONTAINER (NESTING TRACK A & TRACK B) -->
+                        <div class="bg-slate-50 border-2 border-indigo-100 rounded-xl p-4 space-y-3">
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                                <div class="md:col-span-3 space-y-0.5">
+                                    <span class="text-[10px] font-mono font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">SCALED ENGINE</span>
+                                    <h3 class="font-black text-cgi-navy text-base">LEAN AI POD DELIVERY</h3>
+                                    <p class="text-xs text-slate-500 font-medium">the default for all work</p>
+                                </div>
+
+                                <div class="md:col-span-9 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <!-- TRACK A (NESTED) -->
+                                    <div @click="currentView = 'trackBTransition'" class="bg-[#4833a1] text-white p-3.5 rounded-xl shadow cursor-pointer hover:bg-purple-900 transition">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <h4 class="font-extrabold text-sm text-white">TRACK A · STAND UP</h4>
+                                            <span class="px-2 py-0.5 bg-white/20 text-white rounded text-[10px] font-mono font-bold">~8 Pods</span>
+                                        </div>
+                                        <p class="text-xs text-indigo-100 font-normal">New-hire pods in about 12 weeks; lighthouse pods others shadow</p>
+                                    </div>
+
+                                    <!-- TRACK B (NESTED) -->
+                                    <div @click="currentView = 'trackBTransition'" class="bg-[#8c1737] text-white p-3.5 rounded-xl shadow cursor-pointer hover:bg-red-900 transition">
+                                        <div class="flex justify-between items-center mb-1">
+                                            <h4 class="font-extrabold text-sm text-white">TRACK B · TRANSITION</h4>
+                                            <span class="px-2 py-0.5 bg-white/20 text-white rounded text-[10px] font-mono font-bold">~46 Pods</span>
+                                        </div>
+                                        <p class="text-xs text-red-100 font-normal">Today’s teams upskilled and converted in 12–18 months, wave by wave</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LAYER 5: FOUNDATION FOOTER STRIP -->
+                        <div class="bg-slate-100 text-cgi-navy p-3 rounded-xl border border-slate-200 text-xs text-center font-semibold">
+                            <span class="text-indigo-900 font-black uppercase tracking-wider px-2 py-0.5 bg-white rounded border border-slate-200">FOUNDATION</span>
+                            <span class="ml-2 text-slate-700">One platform · one governance model (8 controls, 6 contracts, L1–L4) · one Academy · one KPI tree · one 18-month plan</span>
+                        </div>
+                    </div>
+
+                    <!-- Deals in Pipeline & Market Scan Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <!-- Left: Recommended Actions & Pipeline Deals -->
+                        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                                <div class="flex items-center space-x-2">
+                                    <div class="p-2 bg-indigo-50 text-indigo-700 rounded-lg">
+                                        <i data-lucide="target" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-base font-bold text-cgi-navy">Deals in Pipeline & Strategic Actions</h2>
+                                        <p class="text-xs text-slate-500">Converting market signals into FDAIE 90-day responses</p>
+                                    </div>
+                                </div>
+                                <button @click="currentView = 'marketScan'" class="text-xs font-semibold text-cgi-purpleaccent hover:text-cgi-red flex items-center gap-1 transition">
+                                    <span>View all deals</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+
+                            <div class="space-y-3">
+                                <template x-for="deal in pipelineDeals.slice(0,3)" :key="deal.id">
+                                    <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 hover:bg-purple-50/50 transition flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                        <div class="space-y-1">
+                                            <div class="flex items-center gap-2">
+                                                <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono" :class="deal.tagBg" x-text="deal.category"></span>
+                                                <span class="text-[10px] text-slate-400" x-text="deal.source"></span>
+                                            </div>
+                                            <h4 class="font-bold text-cgi-navy text-xs leading-snug" x-text="deal.title"></h4>
+                                            <p class="text-[11px] text-slate-600 line-clamp-1" x-text="deal.response"></p>
+                                        </div>
+                                        <div class="flex items-center gap-3 flex-shrink-0">
+                                            <div class="text-right">
+                                                <span class="font-black text-cgi-navy text-xs block" x-text="deal.value"></span>
+                                                <span class="text-[10px] text-emerald-600 font-bold" x-text="deal.confidence + ' confidence'"></span>
+                                            </div>
+                                            <button @click="openActionModal(deal.type)" class="px-3 py-1.5 bg-cgi-purpleaccent hover:bg-purple-900 text-white rounded-lg text-xs font-semibold shadow-sm transition">Review</button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Right: Delivery Portfolio & Gate Status -->
+                        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                                <div class="flex items-center space-x-2">
+                                    <div class="p-2 bg-indigo-50 text-indigo-700 rounded-lg">
+                                        <i data-lucide="clock" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-base font-bold text-cgi-navy">Delivery Portfolio & Gates</h2>
+                                        <p class="text-xs text-slate-500">Live pod distribution and milestones</p>
+                                    </div>
+                                </div>
+                                <button @click="currentView = 'executionRoadmap'" class="text-xs font-semibold text-cgi-purpleaccent hover:text-cgi-red flex items-center gap-1 transition">
+                                    <span>Roadmap</span>
+                                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                                </button>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="text-[10px] font-bold text-indigo-700 block">TRACK A · STAND UP</span>
+                                    <p class="text-xl font-black text-cgi-navy mt-1">24 <span class="text-xs font-normal text-slate-500">pods in build</span></p>
+                                    <p class="text-[9px] text-slate-400 mt-2">Target: ~12 wks stand-up</p>
+                                </div>
+
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                    <span class="text-[10px] font-bold text-cgi-red block">TRACK B · TRANSITION</span>
+                                    <p class="text-xl font-black text-cgi-navy mt-1">18 <span class="text-xs font-normal text-slate-500">pods in delivery</span></p>
+                                    <p class="text-[9px] text-slate-400 mt-2">Target: Wave by wave</p>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 space-y-2">
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="font-bold text-cgi-navy">Current Gate: Gate 1 Prove</span>
+                                    <span class="text-[10px] font-mono text-cgi-red font-bold">End Jan 2027</span>
+                                </div>
+                                <p class="text-[11px] text-slate-600">Audit status: 1-2 real data demos complete; security baseline signed off; 4-8 week DORA baseline captured.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 2: MARKET SCAN & DEALS IN PIPELINE                              -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'marketScan'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART A & B · Market Intelligence & Demand Pipeline</span>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">Market Signals & High-Value Deals Pipeline</h1>
+                        </div>
+                        <span class="text-xs font-mono font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-lg">Total Pipeline Value: $44.7M</span>
+                    </div>
+
+                    <!-- Deals Pipeline Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <template x-for="deal in pipelineDeals" :key="deal.id">
+                            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow transition flex flex-col justify-between space-y-4">
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono" :class="deal.tagBg" x-text="deal.category"></span>
+                                        <span class="text-base font-black text-cgi-navy" x-text="deal.value"></span>
+                                    </div>
+                                    <h3 class="font-bold text-cgi-navy text-sm" x-text="deal.title"></h3>
+                                    <p class="text-xs text-slate-600" x-text="deal.response"></p>
+                                </div>
+
+                                <div class="pt-3 border-t border-slate-100 text-xs space-y-2">
+                                    <div class="flex justify-between text-[11px]">
+                                        <span class="text-slate-400">Assigned Lead:</span>
+                                        <span class="font-bold text-slate-700" x-text="deal.owner"></span>
+                                    </div>
+                                    <div class="flex justify-between text-[11px]">
+                                        <span class="text-slate-400">Confidence Score:</span>
+                                        <span class="font-bold text-emerald-600" x-text="deal.confidence"></span>
+                                    </div>
+                                    <button @click="openActionModal(deal.type)" class="w-full py-2 bg-cgi-purpleaccent hover:bg-purple-900 text-white rounded-xl font-semibold shadow-sm transition text-center">
+                                        Review Opportunity & Launch FDAIE Pod →
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    <!-- Market Lessons & Benchmark Summary -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">Market Benchmark Findings (Palantir, Accenture, Labs)</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <strong class="text-cgi-navy block font-bold">Palantir Model (Originator)</strong>
+                                <p class="text-slate-600">Pairs Delta (Builder) with Echo (Domain Strategist). Lessons from the field flow directly back into product.</p>
+                            </div>
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <strong class="text-cgi-navy block font-bold">Accenture Model</strong>
+                                <p class="text-slate-600">Persistent pods tied to client domain running 90-day cycles with outcome-linked commercial models.</p>
+                            </div>
+                            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                                <strong class="text-cgi-navy block font-bold">AI Labs (Anthropic / OpenAI)</strong>
+                                <p class="text-slate-600">Embed with strategic clients, build eval harnesses, publish MCP servers, and codify lessons learnt.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 3: DELIVERY MODEL & FDAIE DEEP-DIVE                             -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'deliveryModel'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART B & C · Structures & Operating Mechanics</span>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">Enterprise FDAIE vs Lean AI Pod Delivery Engine</h1>
+                        </div>
+                        <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-mono font-bold rounded-lg border border-indigo-100">Dual-Motion Architecture</span>
+                    </div>
+
+                    <!-- Side-by-Side Dual Motion Crosswalk -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">Dual Motion Crosswalk</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 bg-slate-50 text-cgi-navy font-bold">
+                                        <th class="p-3 w-1/5">DIMENSION</th>
+                                        <th class="p-3 w-2/5 text-cgi-red bg-rose-50/50">ENTERPRISE FDAIE TEAM (SPEARHEAD)</th>
+                                        <th class="p-3 w-2/5 text-indigo-700 bg-indigo-50/50">LEAN AI POD (DEFAULT ENGINE)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-slate-700">
+                                    <tr>
+                                        <td class="p-3 font-bold text-cgi-navy bg-slate-50/30">Primary Mission</td>
+                                        <td class="p-3 bg-rose-50/10">Land and prove AI in 90-day cycles; set quality bar; seed and coach pods.</td>
+                                        <td class="p-3 bg-indigo-50/10">Deliver all software agent-native by default at scale across greenfield, brownfield & AMS.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-cgi-navy bg-slate-50/30">Lifecycle</td>
+                                        <td class="p-3 bg-rose-50/10"><strong class="text-cgi-red">90-Day Engagement:</strong> Land → Prototype → Deploy → Harden → Scale & Reuse.</td>
+                                        <td class="p-3 bg-indigo-50/10"><strong class="text-indigo-700">Continuous 6-Stage Loop:</strong> Intent → Experience → Context → Build → Align → Outcome.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-cgi-navy bg-slate-50/30">Pod Composition</td>
+                                        <td class="p-3 bg-rose-50/10">3–6 FTE per pod; 9 roles total (5 dedicated + 4 shared CoE bench experts).</td>
+                                        <td class="p-3 bg-indigo-50/10">4–6 FTE core; 5 fused hats + Pod Coach + AgentOps platform ring.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-cgi-navy bg-slate-50/30">Scale by M18</td>
+                                        <td class="p-3 bg-rose-50/10 font-mono font-bold text-cgi-navy">~11 FDAIE Pods (~54 Certified)</td>
+                                        <td class="p-3 bg-indigo-50/10 font-mono font-bold text-cgi-navy">~55 Lean Pods (Track A + Track B)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- FDAIE 4 Internal Deployment Modes -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">FDAIE Internal Impact: 4 Deployment Modes</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 rounded font-bold text-[10px]">MODE 1</span>
+                                <h4 class="font-extrabold text-cgi-navy text-sm">Pod Seeding</h4>
+                                <p class="text-slate-600">Embeds 1 FD AI Engineer into a new Track A pod for 2 loops to model contracts and evals.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-800 rounded font-bold text-[10px]">MODE 2</span>
+                                <h4 class="font-extrabold text-cgi-navy text-sm">Transition Sprints</h4>
+                                <p class="text-slate-600">Co-builds with Track B teams on their backlog during phase B2 for 2-6 weeks.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-bold text-[10px]">MODE 3</span>
+                                <h4 class="font-extrabold text-cgi-navy text-sm">Internal AI Products</h4>
+                                <p class="text-slate-600">Runs Land to Harden for corporate functions (CIO / HR / Finance) in 90-day cycles.</p>
+                            </div>
+                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">MODE 4</span>
+                                <h4 class="font-extrabold text-cgi-navy text-sm">Agents for Journeys</h4>
+                                <p class="text-slate-600">Builds and hardens spec agents for the CTO Office Spec Journey catalogue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 4: LEAN POD TRACK B AGILE TRANSITION & UPSKILLING PATHWAY       -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'trackBTransition'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART C · Section 07 & 08 · Upskilling & Transition</span>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">Lean Pod Agile Transition & Reskilling Plan</h1>
+                        </div>
+                        <span class="px-2.5 py-1 bg-rose-100 text-cgi-red text-xs font-mono font-bold rounded-lg">5 Gated Phases (B0–B4)</span>
+                    </div>
+
+                    <!-- 5 Phase Stepper -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">Track B Transition Roadmap (12–18 Months Per Team)</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                            <button @click="trackBStage = 'B0'" :class="trackBStage === 'B0' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="p-3 rounded-xl text-left transition">
+                                <span class="block font-bold">B0 · Assess</span>
+                                <span class="text-[10px] opacity-80">Months 0–2</span>
+                            </button>
+                            <button @click="trackBStage = 'B1'" :class="trackBStage === 'B1' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="p-3 rounded-xl text-left transition">
+                                <span class="block font-bold">B1 · Learn & Shadow</span>
+                                <span class="text-[10px] opacity-80">Months 2–5</span>
+                            </button>
+                            <button @click="trackBStage = 'B2'" :class="trackBStage === 'B2' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="p-3 rounded-xl text-left transition">
+                                <span class="block font-bold">B2 · Pilot Pod</span>
+                                <span class="text-[10px] opacity-80">Months 5–9</span>
+                            </button>
+                            <button @click="trackBStage = 'B3'" :class="trackBStage === 'B3' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="p-3 rounded-xl text-left transition">
+                                <span class="block font-bold">B3 · Convert</span>
+                                <span class="text-[10px] opacity-80">Months 9–13</span>
+                            </button>
+                            <button @click="trackBStage = 'B4'" :class="trackBStage === 'B4' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="p-3 rounded-xl text-left transition">
+                                <span class="block font-bold">B4 · Operate</span>
+                                <span class="text-[10px] opacity-80">Months 13–18</span>
+                            </button>
+                        </div>
+
+                        <!-- Phase Content Card -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-3">
+                            <template x-if="trackBStage === 'B0'">
+                                <div class="space-y-2">
+                                    <strong class="text-cgi-navy text-sm block">Phase B0: Assess and Baseline (Months 0–2)</strong>
+                                    <p class="text-slate-600">Run readiness score; engage works councils; capture 4–8 weeks of flow and DORA baseline data; obtain client consent before touch.</p>
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-slate-700">
+                                        <strong>Exit Gate:</strong> Readiness score ≥ 70/100; baseline captured; client sponsor agrees.
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="trackBStage === 'B1'">
+                                <div class="space-y-2">
+                                    <strong class="text-cgi-navy text-sm block">Phase B1: Learn and Shadow (Months 2–5)</strong>
+                                    <p class="text-slate-600">Complete AI literacy (T0) & Lean Pod Practitioner (T1) modules in flow (4–6 h/wk); send 2 team members at a time on 2-4 week shadow placements to anchor pods.</p>
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-slate-700">
+                                        <strong>Exit Gate:</strong> ≥80% T1 completion; 1 shadow placement logbook completed per member.
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="trackBStage === 'B2'">
+                                <div class="space-y-2">
+                                    <strong class="text-cgi-navy text-sm block">Phase B2: Pilot Pod (Months 5–9)</strong>
+                                    <p class="text-slate-600">Form a 4-6 person pilot pod inside the team; embed a Pod Coach; run FDAIE transition co-build sprints on the team's actual backlog.</p>
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-slate-700">
+                                        <strong>Exit Gate:</strong> Pilot pod runs 1 loop unaided at L2; quality ≥ 4.0/5; guardrails green.
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="trackBStage === 'B3'">
+                                <div class="space-y-2">
+                                    <strong class="text-cgi-navy text-sm block">Phase B3: Convert (Months 9–13)</strong>
+                                    <p class="text-slate-600">The entire team re-forms into 2 Lean Pods; all 6 repo contracts live; role destinations confirmed with HR.</p>
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-slate-700">
+                                        <strong>Exit Gate:</strong> All pods running the loop; no SLA regression on client account.
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="trackBStage === 'B4'">
+                                <div class="space-y-2">
+                                    <strong class="text-cgi-navy text-sm block">Phase B4: Operate and Certify (Months 13–18)</strong>
+                                    <p class="text-slate-600">Sustained throughput gains vs baseline; Level 3 Proficient certification earned by work sample; team becomes a role model hosting shadows for the next wave.</p>
+                                    <div class="bg-white p-3 rounded-lg border border-slate-200 text-slate-700">
+                                        <strong>Exit Gate:</strong> Sustained 2x throughput gain; team certified; hosting next wave.
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Role Evolution Matrix Table -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">Role Conversion Mapping: Agile to Lean Pod</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50 text-cgi-navy font-bold border-b border-slate-200">
+                                        <th class="p-3">TRADITIONAL AGILE ROLE</th>
+                                        <th class="p-3">LEAN AI POD FUSED ROLE</th>
+                                        <th class="p-3">KEY SKILL GAP TO CLOSE</th>
+                                        <th class="p-3">ACADEMY ASSIST TOOL / PATHWAY</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-slate-700">
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-800">Product Owner / Scrum Master</td>
+                                        <td class="p-3 font-bold text-indigo-700">Intent Lead</td>
+                                        <td class="p-3">Intent framing; Goal Contracts; prompt precision</td>
+                                        <td class="p-3">A3F Module: Intent Framing + Spec Kit /specify</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-800">Developer / Software Eng</td>
+                                        <td class="p-3 font-bold text-amber-700">Value Engineer</td>
+                                        <td class="p-3">Agent orchestration; small batches; test generation</td>
+                                        <td class="p-3">A3F Module: Orchestration + Code Warriors</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-800">Business Analyst / Architect</td>
+                                        <td class="p-3 font-bold text-blue-700">Context Engineer</td>
+                                        <td class="p-3">Context contracts; RAG; AGENTS.md & MCP servers</td>
+                                        <td class="p-3">A3F Module: Context Curation + JAA Journeys</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-800">QA Engineer / Risk Specialist</td>
+                                        <td class="p-3 font-bold text-emerald-700">Alignment Engineer</td>
+                                        <td class="p-3">Evals as DoD; policy-as-code; OWASP agentic security</td>
+                                        <td class="p-3">A3F Module: Governance & Evals + Eval Harness</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-3 font-bold text-slate-800">UX / UI Designer</td>
+                                        <td class="p-3 font-bold text-purple-700">Experience Engineer</td>
+                                        <td class="p-3">Human-agent trust models; explain-why UX; design-to-code</td>
+                                        <td class="p-3">A3F Module: AI Experience Design + Figma MCP</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 5: ACADEMY, SMES & ROLE DIRECTORY                               -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'peopleAcademy'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART D · One CGI AI Delivery Academy & SMEs</span>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">SME Directory, Academy Tiers & Shadowing</h1>
+                        </div>
+                        <span class="text-xs font-mono font-semibold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-lg">6 Featured Key SMEs Active</span>
+                    </div>
+
+                    <!-- FEATURED SME ROSTER & DIRECTORY -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                            <div>
+                                <h3 class="text-base font-bold text-cgi-navy">Certified SME & Role-Model Directory</h3>
+                                <p class="text-xs text-slate-500">Expert practitioners available to lead engagements, seed new pods, and host shadow seats.</p>
+                            </div>
+
+                            <!-- Filter Pills -->
+                            <div class="flex items-center gap-1.5 text-xs">
+                                <button @click="smeCategory = 'all'" :class="smeCategory === 'all' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2.5 py-1 rounded-lg transition">All SMEs</button>
+                                <button @click="smeCategory = 'lead'" :class="smeCategory === 'lead' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2.5 py-1 rounded-lg transition">FDAIE Leads</button>
+                                <button @click="smeCategory = 'tech'" :class="smeCategory === 'tech' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2.5 py-1 rounded-lg transition">Architects & Platform</button>
+                                <button @click="smeCategory = 'domain'" :class="smeCategory === 'domain' ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'" class="px-2.5 py-1 rounded-lg transition">Domain Strategists</button>
+                            </div>
+                        </div>
+
+                        <!-- SME Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <template x-for="sme in filteredSmes" :key="sme.id">
+                                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-purple-300 transition flex flex-col justify-between space-y-3">
+                                    <div class="space-y-3">
+                                        <div class="flex items-start justify-between gap-3">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-10 h-10 rounded-full bg-cgi-navy text-white font-bold flex items-center justify-center text-xs shadow-sm flex-shrink-0" x-text="sme.initials"></div>
+                                                <div>
+                                                    <h4 class="font-black text-cgi-navy text-sm leading-tight" x-text="sme.name"></h4>
+                                                    <p class="text-[11px] text-cgi-red font-semibold mt-0.5" x-text="sme.role"></p>
+                                                </div>
+                                            </div>
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono" :class="sme.tier === 'Tier 4' ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-cgi-red'" x-text="sme.tier"></span>
+                                        </div>
+
+                                        <p class="text-xs text-slate-600 leading-snug line-clamp-2" x-text="sme.bio"></p>
+
+                                        <!-- Skill Badges -->
+                                        <div class="flex flex-wrap gap-1">
+                                            <template x-for="skill in sme.skills" :key="skill">
+                                                <span class="px-2 py-0.5 bg-white border border-slate-200 text-slate-600 rounded text-[10px] font-medium" x-text="skill"></span>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs">
+                                        <span class="text-[10px] text-slate-400 font-mono" x-text="'Active: ' + sme.activePod"></span>
+                                        <button @click="openSmeModal(sme)" class="px-3 py-1 bg-cgi-purpleaccent hover:bg-purple-900 text-white rounded-lg text-xs font-semibold shadow-sm transition">View Profile / Request</button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- ONE ACADEMY 5 TIERS -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">One CGI AI Delivery Academy: 5 Learning Tiers</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-slate-500 block">TIER 0 · L1 AWARE</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">AI Foundations</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">4-6 hrs online: literacy, AI Act compliance logging.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-blue-600 block">TIER 1 · L2 PRACTITIONER</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Lean Pod Practitioner</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">A3F 5 modules + Journeys onboarding.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-purple-600 block">TIER 2 · L3 PROFICIENT</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Pod Role Specialist</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Role labs + shadow placement evidence.</p>
+                            </div>
+                            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+                                <span class="font-bold text-cgi-red block">TIER 3 · CERTIFIED</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">FDAIE Certification</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">3-4 month academy & capstone demo review.</p>
+                            </div>
+                            <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                                <span class="font-bold text-amber-700 block">TIER 4 · L4 LEADER</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Coach & Role Model</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Coached 1+ pod or hosted 3+ shadows.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 6: ROLE-BASED SPEC JOURNEYS NAVIGATOR                            -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'knowledgeHub'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART E · Section 10 · CTO Office Journeys</span>
+                            <h1 class="text-2xl font-black text-cgi-navy tracking-tight">Role-Based GitHub Spec Journeys Navigator</h1>
+                        </div>
+                        <span class="bg-cgi-purplelight text-cgi-purpleaccent px-3 py-1 rounded-lg text-xs font-mono font-bold">CTO Office Certified Spec Agents</span>
+                    </div>
+
+                    <!-- Interactive Role & Phase Filter Controls -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div>
+                            <label class="text-xs font-bold text-cgi-navy block mb-2">1. Select Your Role / Lens:</label>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <button @click="journeyRole = 'intent'" :class="journeyRole === 'intent' ? 'bg-cgi-purpleaccent text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">Intent Lead</button>
+                                <button @click="journeyRole = 'experience'" :class="journeyRole === 'experience' ? 'bg-cgi-purpleaccent text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">Experience Eng</button>
+                                <button @click="journeyRole = 'context'" :class="journeyRole === 'context' ? 'bg-cgi-purpleaccent text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">Context Eng</button>
+                                <button @click="journeyRole = 'value'" :class="journeyRole === 'value' ? 'bg-cgi-purpleaccent text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">Value Eng</button>
+                                <button @click="journeyRole = 'alignment'" :class="journeyRole === 'alignment' ? 'bg-cgi-purpleaccent text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">Alignment Eng</button>
+                                <button @click="journeyRole = 'fdaie'" :class="journeyRole === 'fdaie' ? 'bg-cgi-red text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg transition">FDAIE Lead</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-xs font-bold text-cgi-navy block mb-2">2. Select SDLC Journey Phase:</label>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <template x-for="phase in ['ideate', 'discover', 'specify', 'design', 'build', 'verify', 'release']">
+                                    <button @click="journeyPhase = phase" :class="journeyPhase === phase ? 'bg-cgi-navy text-white font-bold' : 'bg-slate-100 text-slate-700'" class="px-3 py-1.5 rounded-lg capitalize transition" x-text="phase"></button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Active Journey Card Output -->
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3 mt-4">
+                            <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                                <strong class="text-cgi-navy text-sm font-bold capitalize" x-text="journeyRole.toUpperCase() + ' Role · ' + journeyPhase.toUpperCase() + ' Phase'"></strong>
+                                <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Open Standards (MCP / A2A)</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-slate-400 block text-[10px] font-mono">SPEC AGENT TOOLING:</span>
+                                    <strong class="text-cgi-navy block font-mono mt-0.5" x-text="getJourneyDetails(journeyRole, journeyPhase).tool"></strong>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-slate-400 block text-[10px] font-mono">REPO CONTRACT ARTEFACT:</span>
+                                    <strong class="text-emerald-700 block font-mono mt-0.5" x-text="getJourneyDetails(journeyRole, journeyPhase).contract"></strong>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                                    <span class="text-slate-400 block text-[10px] font-mono">RECOMMENDED COMMAND / CLI:</span>
+                                    <strong class="text-blue-700 block font-mono mt-0.5" x-text="getJourneyDetails(journeyRole, journeyPhase).command"></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 7: GOVERNANCE & BEST PRACTICES                                  -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'measuresGovernance'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3">
+                        <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART E · Section 12 · Governance Engine & Best Practices</span>
+                        <h1 class="text-2xl font-black text-cgi-navy tracking-tight">8 Controls, OWASP Agentic Security & EU AI Act Timeline</h1>
+                    </div>
+
+                    <!-- EU AI Act Timeline -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">EU AI Act Regulatory Timeline</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-slate-500 block">2 FEB 2025</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Prohibitions Live</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">AI literacy duty applies; prohibited practices banned.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-blue-600 block">2 AUG 2026</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Art. 50 Transparency</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Watermarking, AI disclosure, user notification required.</p>
+                            </div>
+                            <div class="p-3 bg-rose-50 rounded-xl border border-rose-200">
+                                <span class="font-bold text-cgi-red block">2 DEC 2026</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Marking Grace Ends</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Strict enforcement of AI Act classification in Goal Contracts.</p>
+                            </div>
+                            <div class="p-3 bg-purple-50 rounded-xl border border-purple-200">
+                                <span class="font-bold text-purple-700 block">2 DEC 2027</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">Annex III High Risk</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Full compliance for biometrics, credit, critical infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================================================================== -->
+                <!-- VIEW 8: EXECUTION GUIDE & ROADMAP                                    -->
+                <!-- ==================================================================== -->
+                <div x-show="currentView === 'executionRoadmap'" x-transition class="space-y-6">
+                    <div class="border-b border-slate-200 pb-3">
+                        <span class="text-xs font-mono font-bold text-cgi-red uppercase">PART F · Section 14–17 · Execution & Proof</span>
+                        <h1 class="text-2xl font-black text-cgi-navy tracking-tight">18-Month Program Gates & 13 CXO Decisions</h1>
+                    </div>
+
+                    <!-- 5 Decision Gates -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-cgi-navy">18-Month Roadmap & 5 Decision Gates</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-cgi-red block">GATE 1 · M3 (JAN 2027)</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">G1 Prove</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">1-2 demos on real data, playbook v0.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-blue-600 block">GATE 2 · M6 (APR 2027)</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">G2 Establish</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Intake live, ~10 pods, 2x throughput.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-purple-600 block">GATE 3 · M9 (JUL 2027)</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">G3 Scale</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">Pods in 3+ SBUs, agent-native default.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-amber-600 block">GATE 4 · M12 (OCT 2027)</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">G4 Industrialise</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">30+ pods, outcome-linked deals.</p>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="font-bold text-emerald-600 block">GATE 5 · M18 (APR 2028)</span>
+                                <strong class="text-cgi-navy block font-semibold mt-1">G5 North Star</strong>
+                                <p class="text-slate-500 text-[11px] mt-1">~55 pods, ~54 certified FDAIEs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- ACTION REVIEW MODAL SHEET                                            -->
+    <!-- ==================================================================== -->
+    <div x-show="actionModal !== null" x-cloak @click.self="actionModal = null" x-transition class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <h3 class="text-base font-bold text-cgi-navy flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-cgi-red"></i>
+                    <span>Review Recommended CGI Action</span>
+                </h3>
+                <button @click="actionModal = null" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="text-xs space-y-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <span class="text-slate-400 font-medium">Selected Signal:</span>
+                    <strong class="text-cgi-navy block font-bold text-sm" x-text="actionModal?.title"></strong>
+                </div>
+
+                <div class="p-3 bg-indigo-50 rounded-xl border border-indigo-100 space-y-1">
+                    <span class="text-indigo-800 font-medium">Recommended CGI Strategy:</span>
+                    <p class="text-slate-700" x-text="actionModal?.response"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="text-slate-400 block">Assigned Lead:</span>
+                        <strong class="text-cgi-navy block" x-text="actionModal?.owner"></strong>
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="text-slate-400 block">Confidence Score:</span>
+                        <strong class="text-emerald-600 block" x-text="actionModal?.confidence"></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2">
+                <button @click="actionModal = null" class="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold rounded-lg">Cancel</button>
+                <button @click="actionModal = null" class="px-3.5 py-1.5 bg-cgi-red hover:bg-cgi-redhover text-white text-xs font-semibold rounded-lg shadow">Approve & Launch FDAIE Pod →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- SME DETAIL & REQUEST MODAL                                          -->
+    <!-- ==================================================================== -->
+    <div x-show="smeModal !== null" x-cloak @click.self="smeModal = null" x-transition class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-cgi-navy text-white font-bold flex items-center justify-center text-xs shadow" x-text="smeModal?.initials"></div>
+                    <div>
+                        <h3 class="text-base font-bold text-cgi-navy" x-text="smeModal?.name"></h3>
+                        <p class="text-xs text-cgi-red font-semibold" x-text="smeModal?.role"></p>
+                    </div>
+                </div>
+                <button @click="smeModal = null" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="text-xs space-y-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+                    <span class="text-slate-400 font-medium">Expert Background:</span>
+                    <p class="text-slate-700 leading-relaxed" x-text="smeModal?.bio"></p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="text-slate-400 block">Certification Tier:</span>
+                        <strong class="text-cgi-navy block font-bold" x-text="smeModal?.tier"></strong>
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+                        <span class="text-slate-400 block">Current Engagement:</span>
+                        <strong class="text-indigo-700 block font-bold" x-text="smeModal?.activePod"></strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                <button @click="smeModal = null" class="px-3.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold rounded-lg">Close</button>
+                <button @click="smeModal = null" class="px-3.5 py-1.5 bg-cgi-red hover:bg-cgi-redhover text-white text-xs font-semibold rounded-lg shadow">Request SME for Pod Seeding →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- ROI & CAPACITY MODELER MODAL                                         -->
+    <!-- ==================================================================== -->
+    <div x-show="roiModalOpen" x-cloak @click.self="roiModalOpen = false" x-transition class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-xl w-full p-6 space-y-6 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <h3 class="text-lg font-bold text-cgi-navy flex items-center gap-2">
+                    <i data-lucide="calculator" class="w-5 h-5 text-cgi-red"></i>
+                    Executive ROI & Productivity Modeler
+                </h3>
+                <button @click="roiModalOpen = false" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="text-slate-700 block font-medium mb-1">Target Lean Pod Count: <span x-text="roiPods" class="text-cgi-red font-bold"></span> Pods</label>
+                    <input type="range" min="5" max="100" step="5" x-model="roiPods" class="w-full accent-cgi-red">
+                </div>
+
+                <div>
+                    <label class="text-slate-700 block font-medium mb-1">Average FTE Engineers Per Pod: <span x-text="roiDevs" class="text-blue-600 font-bold"></span> FTEs</label>
+                    <input type="range" min="3" max="8" step="1" x-model="roiDevs" class="w-full accent-blue-600">
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 font-mono">
+                    <div class="flex justify-between text-slate-700">
+                        <span>Total Transformed Workforce:</span>
+                        <span class="text-cgi-navy font-bold" x-text="(roiPods * roiDevs) + ' Engineers'"></span>
+                    </div>
+                    <div class="flex justify-between text-slate-700">
+                        <span>Equivalent Capacity Added (2x Baseline):</span>
+                        <span class="text-emerald-600 font-bold" x-text="(roiPods * roiDevs) + ' FTEs Free'"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button @click="roiModalOpen = false" class="px-4 py-2 bg-cgi-red hover:bg-cgi-redhover text-white text-xs font-semibold rounded-lg shadow">Close Modeler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- PROGRAM GATE AUDITOR MODAL                                          -->
+    <!-- ==================================================================== -->
+    <div x-show="gateModalOpen" x-cloak @click.self="gateModalOpen = false" x-transition class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white border border-slate-200 rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                <h3 class="text-lg font-bold text-cgi-navy flex items-center gap-2">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-cgi-red"></i>
+                    Program Gate Auditor & Quality Assurer
+                </h3>
+                <button @click="gateModalOpen = false" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Gate Selector Pills -->
+            <div class="flex gap-2 border-b border-slate-100 pb-3 overflow-x-auto text-xs font-semibold custom-scrollbar">
+                <button @click="activeAuditGate = 'G1'" :class="activeAuditGate === 'G1' ? 'bg-cgi-red text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">Gate 1: Prove (M3)</button>
+                <button @click="activeAuditGate = 'G2'" :class="activeAuditGate === 'G2' ? 'bg-cgi-red text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">Gate 2: Establish (M6)</button>
+                <button @click="activeAuditGate = 'G3'" :class="activeAuditGate === 'G3' ? 'bg-cgi-red text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">Gate 3: Scale (M9)</button>
+                <button @click="activeAuditGate = 'G4'" :class="activeAuditGate === 'G4' ? 'bg-cgi-red text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">Gate 4: Industrialise (M12)</button>
+                <button @click="activeAuditGate = 'G5'" :class="activeAuditGate === 'G5' ? 'bg-cgi-red text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'" class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">Gate 5: North Star (M18)</button>
+            </div>
+
+            <!-- Checklist Items -->
+            <div class="space-y-3 text-xs">
+                <template x-for="(item, idx) in auditChecklists[activeAuditGate]" :key="idx">
+                    <label class="flex items-start gap-3 p-3 bg-slate-50 hover:bg-purple-50/40 rounded-xl border border-slate-200 cursor-pointer transition">
+                        <input type="checkbox" x-model="item.checked" class="mt-0.5 rounded text-cgi-red focus:ring-cgi-red w-4 h-4">
+                        <div>
+                            <span class="font-bold text-cgi-navy block text-xs" x-text="item.title"></span>
+                            <span class="text-slate-600 text-[11px] mt-0.5 block leading-snug" x-text="item.desc"></span>
+                        </div>
+                    </label>
+                </template>
+            </div>
+
+            <!-- Compliance Summary Banner -->
+            <div class="p-3 bg-indigo-50 border border-indigo-100 rounded-xl flex justify-between items-center text-xs">
+                <div>
+                    <span class="text-slate-500 font-medium block">Gate Audit Compliance Score:</span>
+                    <span class="text-cgi-navy font-black text-sm" x-text="getGateScore(activeAuditGate) + '% Compliance Pass'"></span>
+                </div>
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold font-mono" :class="getGateScore(activeAuditGate) >= 75 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'" x-text="getGateScore(activeAuditGate) >= 75 ? 'GATE READY FOR SIGN-OFF' : 'ACTION ITEMS REMAINING'"></span>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+                <button @click="gateModalOpen = false" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold rounded-lg">Close Auditor</button>
+                <button @click="gateModalOpen = false" class="px-4 py-2 bg-cgi-red hover:bg-cgi-redhover text-white text-xs font-semibold rounded-lg shadow">Export Gate Sign-off Report →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- ALPINE APP STATE SCRIPT                                              -->
+    <!-- ==================================================================== -->
+    <script>
+        function dashboardApp() {
+            return {
+                currentView: 'dashboard',
+                trackBStage: 'B0',
+                journeyRole: 'intent',
+                journeyPhase: 'specify',
+                actionModal: null,
+                smeModal: null,
+                roiModalOpen: false,
+                gateModalOpen: false,
+                activeAuditGate: 'G1',
+                searchQuery: '',
+                smeCategory: 'all',
+                roiPods: 25,
+                roiDevs: 5,
+
+                auditChecklists: {
+                    G1: [
+                        { title: 'Real Data Demos Complete', desc: '1–2 working demos delivered on real client data with verified accuracy.', checked: true },
+                        { title: 'Security & Privacy Baseline Signed Off', desc: 'Data handling, residency, and OWASP agentic threat modeling approved.', checked: true },
+                        { title: 'Flow & DORA Baseline Captured', desc: '4–8 weeks of historical flow, lead time, and defect data recorded.', checked: true },
+                        { title: 'Playbook v0 & Contract Templates', desc: 'Goal Contract and Context Contract templates checked into repository.', checked: false }
+                    ],
+                    G2: [
+                        { title: 'Single Intake Front Door Live', desc: 'Portfolio board actively qualifying and allocating demand across SBUs.', checked: true },
+                        { title: '10 Lean Pods Active', desc: 'Track A lighthouse pods and Track B wave 1 pilots running the 6-stage loop.', checked: false },
+                        { title: '2x Throughput Gain Validated', desc: 'Matched comparison against pre-pod baseline showing double throughput.', checked: false }
+                    ],
+                    G3: [
+                        { title: 'Multi-SBU Scaling', desc: 'Pods operational across 3+ SBUs with shared CoE asset reuse.', checked: false },
+                        { title: 'Agent-Native Default for New Work', desc: 'All greenfield and brownfield projects starting with Spec Kit / BMAD.', checked: false }
+                    ],
+                    G4: [
+                        { title: '30+ Lean Pods Deployed', desc: 'Track B wave conversions scaling smoothly across accounts.', checked: false },
+                        { title: 'Outcome-Linked Commercial Deals', desc: 'Commercial models tied to business outcomes and metric improvements.', checked: false }
+                    ],
+                    G5: [
+                        { title: '~55 Lean Pods & ~54 Certified FDAIEs', desc: 'Full target capacity operational across Track A, Track B, and FDAIE.', checked: false },
+                        { title: 'In-Scope Delivery Estate Converted', desc: 'Agent-native delivery default across entire account portfolio.', checked: false }
+                    ]
+                },
+
+                getGateScore(gate) {
+                    const list = this.auditChecklists[gate];
+                    if (!list || list.length === 0) return 0;
+                    const checkedCount = list.filter(i => i.checked).length;
+                    return Math.round((checkedCount / list.length) * 100);
+                },
+
+                pipelineDeals: [
+                    {
+                        id: 1,
+                        type: 'assurance',
+                        title: 'US Gov AI Assurance Accelerator Opportunity',
+                        category: 'Regulation',
+                        tagBg: 'bg-purple-100 text-purple-800',
+                        source: 'Govtech · Oct 2026',
+                        value: '$12.5M',
+                        confidence: '85%',
+                        owner: 'Sarah Lee (Public Sector Lead)',
+                        response: 'Deploy an AI assurance accelerator using FDAIE pods to de-risk high-stakes public sector compliance.'
+                    },
+                    {
+                        id: 2,
+                        type: 'wealth',
+                        title: 'Tier-1 Bank GenAI Wealth Management Advisory Play',
+                        category: 'Client Move',
+                        tagBg: 'bg-blue-100 text-blue-800',
+                        source: 'Financial Times · Oct 2026',
+                        value: '$18.2M',
+                        confidence: '72%',
+                        owner: 'Marcus Reed (Banking & Capital Markets)',
+                        response: 'Launch a 12-week Track A pod to build an agentic wealth advisory pilot on secure Azure OpenAI.'
+                    },
+                    {
+                        id: 3,
+                        type: 'manufacturing',
+                        title: 'Smart Factory Autonomous Supply Chain Operations',
+                        category: 'Industry Trend',
+                        tagBg: 'bg-rose-100 text-cgi-red',
+                        source: 'McKinsey · Oct 2026',
+                        value: '$14.0M',
+                        confidence: '68%',
+                        owner: 'Priya Shah (Manufacturing Lead)',
+                        response: 'Package a sector play: AI operations pod with reference architecture and rapid ROI assessment.'
+                    }
+                ],
+
+                smes: [
+                    {
+                        id: 1,
+                        name: 'Dr. Aris Thorne',
+                        initials: 'AT',
+                        role: 'Principal FD AI Lead',
+                        tier: 'Tier 4',
+                        category: 'lead',
+                        activePod: 'US Gov AI Assurance',
+                        skills: ['Public Sector', 'AI Assurance', 'EU AI Act', 'Scoping'],
+                        bio: 'Ex-Palantir Deployment Lead with 10+ years embedding AI in public sector workflows. Leads CGI public sector assurance pods.'
+                    },
+                    {
+                        id: 2,
+                        name: 'Elena Rostova',
+                        initials: 'ER',
+                        role: 'Senior Context Curation Architect',
+                        tier: 'Tier 3',
+                        category: 'tech',
+                        activePod: 'Wealth Management Pod',
+                        skills: ['Context Contracts', 'MCP Servers', 'Knowledge Graphs', 'RAG'],
+                        bio: 'Specialist in turning complex financial compliance rules into machine-readable AGENTS.md and MCP knowledge servers.'
+                    },
+                    {
+                        id: 3,
+                        name: 'David Chen',
+                        initials: 'DC',
+                        role: 'Principal AgentOps & Platform Lead',
+                        tier: 'Tier 4',
+                        category: 'tech',
+                        activePod: 'CTO Office CoE',
+                        skills: ['Agent Gateways', 'OTel GenAI', 'LangGraph', 'Eval Suites'],
+                        bio: 'Architect of CGIs standardized Agent Gateway and OpenTelemetry observability plane across Track A and Track B pods.'
+                    },
+                    {
+                        id: 4,
+                        name: 'Sarah Jenkins',
+                        initials: 'SJ',
+                        role: 'Responsible-AI & Security SME',
+                        tier: 'Tier 4',
+                        category: 'lead',
+                        activePod: 'Global AI CoE Bench',
+                        skills: ['OWASP Agentic', 'EU AI Act', 'Threat Modeling', 'Guardrails'],
+                        bio: 'Independent risk and security authority for CGI AI engagements. Certified lead auditor for ISO/IEC 42001.'
+                    },
+                    {
+                        id: 5,
+                        name: 'Vikram Patel',
+                        initials: 'VP',
+                        role: 'Deployment Strategist (Industry 4.0)',
+                        tier: 'Tier 3',
+                        category: 'domain',
+                        activePod: 'Manufacturing Operations',
+                        skills: ['Manufacturing', 'Supply Chain', 'Workflow Mapping', 'ROI'],
+                        bio: 'Deep manufacturing domain expert translating plant operations and ERP workflows into high-value AI agent intents.'
+                    },
+                    {
+                        id: 6,
+                        name: 'Clara Moreau',
+                        initials: 'CM',
+                        role: 'Experience Engineer & Trust Designer',
+                        tier: 'Tier 3',
+                        category: 'domain',
+                        activePod: 'Track A Anchor Pod',
+                        skills: ['Human-AI UX', 'Trust Models', 'WCAG', 'Explain-Why'],
+                        bio: 'Pioneer in human-agent interaction design, specializing in review-and-edit interfaces and human-in-the-loop overrides.'
+                    }
+                ],
+
+                get filteredSmes() {
+                    if (this.smeCategory === 'all') return this.smes;
+                    return this.smes.filter(sme => sme.category === this.smeCategory);
+                },
+
+                getJourneyDetails(role, phase) {
+                    const matrix = {
+                        intent: {
+                            specify: { tool: 'BMAD PM / Spec Kit', contract: 'Goal Contract (spec.md)', command: 'specify --constitution --intent' },
+                            ideate: { tool: 'BMAD Analyst', contract: 'Opportunity Brief v0', command: 'bmad-analyst --ideate' },
+                            build: { tool: 'Jira/ADO AI Integrator', contract: 'Backlog Goal Priority', command: 'jira-ai sync --intent' }
+                        },
+                        value: {
+                            specify: { tool: 'Spec Kit Plan', contract: 'Tool & Constraint Contract', command: 'specify plan --small-batches' },
+                            build: { tool: 'Codex / Claude Code / Copilot', contract: 'Tested PR + Evidence', command: 'claude-code --spec spec.md' },
+                            verify: { tool: 'CI/CD Test Gen Agent', contract: 'Verification Log', command: 'ci-eval-run --batch' }
+                        },
+                        context: {
+                            specify: { tool: 'BMAD Architect / MCP', contract: 'Context Contract (AGENTS.md)', command: 'mcp-server-connect --ground' },
+                            discover: { tool: 'Workflow Mapping Skill', contract: 'Domain Decision Rules', command: 'map-workflow --domain' },
+                            build: { tool: 'RAG Ingestion Server', contract: 'MCP Knowledge Server', command: 'rag-index --policy' }
+                        },
+                        fdaie: {
+                            specify: { tool: 'FDAIE Sprint Charter Kit', contract: '90-Day Sprint SOW', command: 'fdaie-land --charter' },
+                            ideate: { tool: 'AI Value Workshop Kit', contract: 'Scored Opportunity Brief', command: 'fdaie-workshop --roi' },
+                            build: { tool: 'FDAIE Prototype Harness', contract: 'Live Sandbox Demo', command: 'fdaie-proto --real-data' }
+                        }
+                    };
+
+                    if (matrix[role] && matrix[role][phase]) {
+                        return matrix[role][phase];
+                    }
+                    return { tool: 'GitHub Spec Kit / BMAD', contract: 'Repo Spec Artifact', command: 'specify --phase ' + phase };
+                },
+
+                init() {
+                    this.$nextTick(() => {
+                        lucide.createIcons();
+                    });
+                    this.$watch('actionModal', () => this.$nextTick(() => lucide.createIcons()));
+                    this.$watch('smeModal', () => this.$nextTick(() => lucide.createIcons()));
+                    this.$watch('roiModalOpen', () => this.$nextTick(() => lucide.createIcons()));
+                    this.$watch('gateModalOpen', () => this.$nextTick(() => lucide.createIcons()));
+                    this.$watch('currentView', () => this.$nextTick(() => lucide.createIcons()));
+                },
+
+                openSmeModal(sme) {
+                    this.smeModal = sme;
+                },
+
+                openActionModal(type) {
+                    const match = this.pipelineDeals.find(d => d.type === type);
+                    if (match) {
+                        this.actionModal = match;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
